@@ -1,9 +1,10 @@
 #!/sbin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, make_response, render_template, jsonify
+from flask import Flask, request, make_response, render_template, jsonify, send_from_directory
 import hashlib
 import pandas as pd
+import os
 from random import randint
 
 app = Flask(__name__)
@@ -34,3 +35,11 @@ def save():
         file.write("\n")
 
     return jsonify({"message": "Sucesso!"})
+
+@app.route("/download/messages", methods=["GET"])
+def download_messages():
+    return send_from_directory("data", "messages.csv")
+
+@app.route("/download/responses", methods=["GET"])
+def download_responses():
+    return send_from_directory("data", "responses.csv")
